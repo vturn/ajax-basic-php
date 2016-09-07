@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+<script>
+$(document).ready(function(){
+
+	$("#btn").click(function(){
+		// Using the core $.ajax() method
+		$.ajax({
+			// The URL for the request
+			url: "index.php",
+			// The data to send
+			data: JSON.stringify({
+				param1: 'value1',
+				param2: [{param2_key: 'param2_val1'},
+							{param2_key: 'param2_val2'}
+			]}),
+			// Whether this is a POST or GET request
+			type: "POST",
+			// The type of data we expect back
+			dataType : "json",
+		})
+			// Code to run if the request succeeds (is done);
+			// The response is passed to the function
+			.done(function( json ) {
+				$("#feedback").css("display", "block");
+				$("#result").html(JSON.stringify(json));
+			})
+			// Code to run if the request fails; the raw request and
+			// status codes are passed to the function
+			.fail(function( xhr, status, errorThrown ) {
+				console.log( "Error: " + errorThrown );
+				console.log( "Status: " + status );
+				console.dir( xhr );
+			})
+			// Code to run regardless of success or failure;
+			.always(function( xhr, status ) {
+				console.log('completed.');
+		  });
+	  
+	});
+});
+  </script>
+<div class="container">
+  <h1>Ajax with POST Method</h1>
+  <h2>Content</h2>
+  <div><pre>
+{
+	param1: 'value1',
+	param2: [
+		{param2_key: 'param2_val1'},
+		{param2_key: 'param2_val2'}
+	]
+}
+	</pre></div>
+	<div><button id="btn" type="button" class="btn btn-default">Submit</button></div>
+	<div id="feedback" style="display:none;"><h2>PHP dump</h2>
+	<pre id="result">
+	</pre></div>
+</div>
+</body>
+</html>
